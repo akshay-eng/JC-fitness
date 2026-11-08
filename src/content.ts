@@ -194,6 +194,8 @@ export type GymEvent = {
   seats?: { total: number; taken: number }
   price: string
   featured?: boolean
+  /** Photo shown when the row is hovered (path inside public/). */
+  image?: string
 }
 
 function inDays(days: number, hour = 7, minute = 0) {
@@ -244,6 +246,7 @@ export const events: GymEvent[] = [
   },
   {
     id: 'deadlift-clinic',
+    image: 'images/events/deadlift-clinic.jpg',
     title: 'Deadlift Clinic',
     kind: 'workshop',
     date: next(6, 10, 0),
@@ -255,6 +258,7 @@ export const events: GymEvent[] = [
   },
   {
     id: 'fight-night',
+    image: 'images/events/fight-night.jpg',
     title: 'Fight Night',
     kind: 'community',
     date: next(5, 20, 0),
@@ -265,6 +269,7 @@ export const events: GymEvent[] = [
   },
   {
     id: 'hybrid-sim',
+    image: 'images/events/hybrid-sim.jpg',
     title: 'Hybrid Race Sim',
     kind: 'competition',
     date: next(6, 7, 30, 1),
@@ -276,6 +281,7 @@ export const events: GymEvent[] = [
   },
   {
     id: 'women-strength',
+    image: 'images/events/women-strength.jpg',
     title: "Women's Strength Bootcamp",
     kind: 'workshop',
     date: next(1, 19, 0),
@@ -287,6 +293,7 @@ export const events: GymEvent[] = [
   },
   {
     id: 'mobility-sunday',
+    image: 'images/events/mobility-sunday.jpg',
     title: 'Mobility & Recovery Sunday',
     kind: 'workshop',
     date: next(0, 9, 0, 1),
@@ -297,6 +304,7 @@ export const events: GymEvent[] = [
   },
   {
     id: 'pancake-social',
+    image: 'images/events/pancake-social.jpg',
     title: 'Protein Pancake Social',
     kind: 'community',
     date: inDays(17, 11, 0),
@@ -324,8 +332,10 @@ export const liftTitles: { min: number; title: string }[] = [
 /* ------------------------------------------------------------------------ */
 
 export const images = {
-  /** Behind the hero lifter, heavily darkened. Landscape, 2400 × 1600. */
+  /** The hero's main photo, in the angled panel. Landscape, 2000 × 1400 or larger. */
   hero: 'images/hero.jpg',
+  /** Close-up in the round inset over the hero photo. Square, 800 × 800. */
+  heroDetail: 'images/hero-detail.jpg',
   /** Inside the featured event card, tinted orange. 1600 × 1000. */
   featuredEvent: 'images/events/iron-clash.jpg',
 }
@@ -434,10 +444,14 @@ export const stations: Station[] = [
 export type GalleryPhoto = { src: string; label: string; alt: string; size: string }
 
 export const gallery: GalleryPhoto[] = [
-  { src: 'images/gallery/floor.jpg', label: 'Main strength floor', alt: 'The main strength floor at JC Fitness', size: '2000 × 1500' },
-  { src: 'images/gallery/platforms.jpg', label: 'Olympic platforms', alt: 'Olympic lifting platforms with bumper plates', size: '1600 × 1000' },
-  { src: 'images/gallery/cardio.jpg', label: 'Cardio deck', alt: 'Treadmills and ellipticals on the cardio deck', size: '1600 × 1000' },
-  { src: 'images/gallery/boxing.jpg', label: 'Boxing ring', alt: 'The boxing ring and heavy bags', size: '1200 × 1200' },
-  { src: 'images/gallery/class.jpg', label: 'Group class', alt: 'A group HIIT class in the studio', size: '1200 × 1200' },
-  { src: 'images/gallery/recovery.jpg', label: 'Recovery zone', alt: 'Sauna and ice bath in the recovery zone', size: '1200 × 1200' },
+  { src: 'images/gallery/floor.jpg', label: 'Rack row', alt: 'Power racks and coloured bumper plates on the strength floor', size: '1600 × 1200' },
+  { src: 'images/gallery/boxing.jpg', label: 'Bag work', alt: 'A boxer kicking a heavy bag', size: '1600 × 900' },
+  { src: 'images/gallery/cardio.jpg', label: 'Cardio by the window', alt: 'Treadmills facing a window full of plants', size: '1200 × 1600' },
+  { src: 'images/gallery/weights.jpg', label: 'Free weights', alt: 'A rack of hex dumbbells', size: '1600 × 1066' },
+  { src: 'images/gallery/class.jpg', label: 'Spin night', alt: 'Members laughing during a spin class', size: '1600 × 1066' },
+  { src: 'images/gallery/platforms.jpg', label: 'Platforms', alt: 'Loaded barbells on the lifting platforms', size: '1600 × 1066' },
+  { src: 'images/gallery/recovery.jpg', label: 'Sauna', alt: 'The wooden sauna in the recovery zone', size: '1600 × 1066' },
+  { src: 'images/gallery/ropes.jpg', label: 'Conditioning', alt: 'An athlete working battle ropes', size: '1600 × 1066' },
+  { src: 'images/gallery/cardio-deck.jpg', label: 'Cardio deck', alt: 'Air bikes and cross trainers on the cardio deck', size: '1200 × 1600' },
+  { src: 'images/gallery/kettlebells.jpg', label: 'Kettlebells', alt: 'Kettlebells and dumbbells on rubber flooring', size: '1600 × 1066' },
 ]

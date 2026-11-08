@@ -41,8 +41,8 @@ const ELLIPTICAL_PIVOT = { x: 290, y: 284 }
 const BIKE_CRANK = { x: 214, y: 318 }
 const ROWER_EXIT = { x: 326, y: 300 }
 
-const FRAME = 'rgb(244 241 234 / 0.2)'
-const FRAME_SOFT = 'rgb(244 241 234 / 0.12)'
+const FRAME = 'rgb(234 242 247 / 0.2)'
+const FRAME_SOFT = 'rgb(234 242 247 / 0.12)'
 const FILL = 'var(--surface-4, #232328)'
 const FILL_HI = 'var(--surface-6, #313137)'
 
@@ -200,11 +200,11 @@ export const Lifter = forwardRef<LifterHandle, Props>(function Lifter(
     },
     burst: () => {
       const k = skeleton(state)
-      spawn(k.hand.x, k.hand.y, 16, 46, 'rgba(244,241,234,0.85)', 20)
+      spawn(k.hand.x, k.hand.y, 16, 46, 'rgba(234,242,247,0.85)', 20)
     },
     impact: () => {
       const k = skeleton(state)
-      spawn(k.plate.x, FLOOR - 4, 18, 70, 'rgba(244,241,234,0.55)', 12)
+      spawn(k.plate.x, FLOOR - 4, 18, 70, 'rgba(234,242,247,0.55)', 12)
     },
   }))
 
@@ -295,7 +295,7 @@ function Spokes({ cx, cy, r, set }: { cx: number; cy: number; r: number; set: Se
   return (
     <g>
       <circle cx={cx} cy={cy} r={r} fill={FILL} stroke={FRAME} strokeWidth={4} />
-      <g ref={set('spokes')} stroke="rgb(244 241 234 / 0.3)" strokeWidth={3}>
+      <g ref={set('spokes')} stroke="rgb(234 242 247 / 0.3)" strokeWidth={3}>
         <line x1={cx - r + 7} y1={cy} x2={cx + r - 7} y2={cy} />
         <line x1={cx} y1={cy - r + 7} x2={cx} y2={cy + r - 7} />
         <circle cx={cx + r - 11} cy={cy} r={3} fill="var(--brand)" stroke="none" />
@@ -341,7 +341,7 @@ function PropBack({ kind, set }: { kind: PropKind; set: SetRef }) {
             <line x1={222} y1={FLOOR} x2={258} y2={FLOOR} strokeWidth={6} />
           </g>
           <rect x={104} y={310} width={158} height={13} rx={6} fill={FILL_HI} />
-          <rect x={108} y={310} width={150} height={3} rx={1.5} fill="rgb(244 241 234 / 0.12)" />
+          <rect x={108} y={310} width={150} height={3} rx={1.5} fill="rgb(234 242 247 / 0.12)" />
         </g>
       )
     case 'treadmill':
@@ -357,7 +357,7 @@ function PropBack({ kind, set }: { kind: PropKind; set: SetRef }) {
           <rect x={88} y={FLOOR - 1} width={254} height={15} rx={7.5} fill={FILL} />
           <circle cx={97} cy={FLOOR + 6.5} r={5} fill={FILL_HI} />
           <circle cx={333} cy={FLOOR + 6.5} r={5} fill={FILL_HI} />
-          <line ref={set('belt')} x1={96} y1={FLOOR} x2={334} y2={FLOOR} stroke="rgb(244 241 234 / 0.3)" strokeWidth={3} strokeDasharray="14 20" />
+          <line ref={set('belt')} x1={96} y1={FLOOR} x2={334} y2={FLOOR} stroke="rgb(234 242 247 / 0.3)" strokeWidth={3} strokeDasharray="14 20" />
         </g>
       )
     case 'elliptical':
@@ -378,7 +378,7 @@ function PropBack({ kind, set }: { kind: PropKind; set: SetRef }) {
             <g ref={set('pFar')}>
               <rect width={42} height={7} rx={3} fill={FILL_HI} />
             </g>
-            <line ref={set('hFar')} stroke="rgb(244 241 234 / 0.35)" strokeWidth={7} />
+            <line ref={set('hFar')} stroke="rgb(234 242 247 / 0.35)" strokeWidth={7} />
           </g>
           <circle cx={ELLIPTICAL_PIVOT.x} cy={ELLIPTICAL_PIVOT.y} r={6} fill={FILL_HI} />
         </g>
@@ -432,17 +432,17 @@ function PropFront({ kind, set }: { kind: PropKind; set: SetRef }) {
     case 'elliptical':
       return (
         <g>
-          <polyline ref={set('aNear')} fill="none" stroke="rgb(244 241 234 / 0.32)" strokeWidth={7} />
+          <polyline ref={set('aNear')} fill="none" stroke="rgb(234 242 247 / 0.32)" strokeWidth={7} />
           <g ref={set('pNear')}>
             <rect width={42} height={7} rx={3} fill="var(--surface-7, #38383e)" />
           </g>
-          <line ref={set('hNear')} stroke="rgb(244 241 234 / 0.55)" strokeWidth={8} />
+          <line ref={set('hNear')} stroke="rgb(234 242 247 / 0.55)" strokeWidth={8} />
         </g>
       )
     case 'bike':
       return (
         <g>
-          <line ref={set('cNear')} stroke="rgb(244 241 234 / 0.45)" strokeWidth={7} />
+          <line ref={set('cNear')} stroke="rgb(234 242 247 / 0.45)" strokeWidth={7} />
           <g ref={set('pNear')}>
             <rect width={20} height={5} rx={2.5} fill="var(--brand)" />
           </g>
@@ -451,7 +451,7 @@ function PropFront({ kind, set }: { kind: PropKind; set: SetRef }) {
     case 'rower':
       return (
         <g>
-          <line ref={set('chain')} x1={ROWER_EXIT.x} y1={ROWER_EXIT.y} stroke="rgb(244 241 234 / 0.45)" strokeWidth={3} />
+          <line ref={set('chain')} x1={ROWER_EXIT.x} y1={ROWER_EXIT.y} stroke="rgb(234 242 247 / 0.45)" strokeWidth={3} />
           <circle ref={set('grip')} r={6} fill="var(--brand)" />
         </g>
       )

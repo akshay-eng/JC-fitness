@@ -12,6 +12,12 @@ import { gsap, prefersReducedMotion } from '@/lib/gsap'
 import { spring } from '@/lib/springs'
 import { cn } from '@/lib/utils'
 
+/** The rim text: the station's name repeated, spaced to fill the circle exactly. */
+const ringText = (name: string, kind: string) => {
+  const unit = `${name} · ${kind} · `
+  return unit.repeat(Math.max(2, Math.round(100 / unit.length)))
+}
+
 /** How long a cardio station shows before auto-advancing; strength waits for its rep. */
 const CARDIO_DWELL = 5200
 
@@ -104,7 +110,7 @@ export function Floor() {
 
         <div id={`floor-panel-${idx}`} role="tabpanel" aria-labelledby={`floor-tab-${idx}`} className="grid gap-3 lg:grid-cols-[1.15fr_0.85fr]">
           {/* Stage */}
-          <div className="relative overflow-clip rounded-[28px] bg-card shadow-[inset_0_0_0_1px_rgb(244_241_234/0.07)]">
+          <div className="relative overflow-clip rounded-[28px] bg-card shadow-[inset_0_0_0_1px_rgb(234_242_247/0.07)]">
             <div className="grid-lines pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
             <div
               aria-hidden="true"
@@ -112,8 +118,8 @@ export function Floor() {
               style={{
                 background:
                   station.kind === 'strength'
-                    ? 'radial-gradient(60% 55% at 50% 70%, rgb(255 91 20 / 0.16), transparent 70%)'
-                    : 'radial-gradient(60% 55% at 50% 70%, rgb(215 255 58 / 0.09), transparent 70%)',
+                    ? 'radial-gradient(60% 55% at 50% 70%, rgb(59 140 255 / 0.16), transparent 70%)'
+                    : 'radial-gradient(60% 55% at 50% 70%, rgb(61 245 160 / 0.09), transparent 70%)',
               }}
             />
             <div className="relative flex flex-col items-start justify-between gap-3 p-5 sm:flex-row sm:gap-4 sm:p-7">
@@ -136,7 +142,6 @@ export function Floor() {
                   </motion.h3>
                 </AnimatePresence>
               </div>
-              <p className="eyebrow shrink-0 rounded-full bg-fg/[0.06] px-3 py-2 text-[11px] text-fg/80 sm:text-xs">{station.count}</p>
             </div>
 
             <div ref={figure} className="relative mx-auto -mt-4 w-full max-w-[520px] px-4 pb-6">
@@ -157,21 +162,41 @@ export function Floor() {
 
           {/* Photo + details */}
           <div className="flex flex-col gap-3">
-            <div className="relative overflow-clip rounded-[28px] bg-card shadow-[inset_0_0_0_1px_rgb(244_241_234/0.07)]">
-              <AnimatePresence mode="popLayout" initial={false}>
-                <motion.div
-                  key={station.id}
-                  initial={{ opacity: 0, scale: 1.03 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, transition: spring.slow.exit }}
-                  transition={spring.slow}
-                >
-                  <Photo src={station.image} alt={`The ${station.name.toLowerCase()} at the gym`} label={`${station.name} photo`} size="1600 × 1200" className="aspect-[4/3] w-full" />
-                </motion.div>
-              </AnimatePresence>
+            {/* The station photo, framed like a bumper plate, its name orbiting the rim. */}
+            <div className="relative mx-auto aspect-square w-full max-w-[440px] overflow-clip rounded-full">
+              <svg viewBox="0 0 400 400" className="absolute inset-0 animate-[spin_34s_linear_infinite] motion-reduce:animate-none" aria-hidden="true">
+                <defs>
+                  <path id="floor-ring" d="M200,200 m-184,0 a184,184 0 1,1 368,0 a184,184 0 1,1 -368,0" />
+                </defs>
+                <text fill="var(--fg)" fillOpacity={0.75} fontSize={16} style={{ fontVariationSettings: "'wdth' 100, 'wght' 650", textTransform: 'uppercase' }}>
+                  <textPath href="#floor-ring" textLength={1150} lengthAdjust="spacing">
+                    {ringText(station.name, station.kind)}
+                  </textPath>
+                </text>
+              </svg>
+              <div className="absolute inset-[11%] rounded-full bg-[conic-gradient(from_210deg,var(--brand),var(--volt),var(--brand))] p-[9px] shadow-[0_30px_80px_rgb(0_0_0/0.5)]">
+                <div className="relative size-full overflow-clip rounded-full bg-bg">
+                  <AnimatePresence initial={false}>
+                    <motion.div
+                      key={station.id}
+                      className="absolute inset-0"
+                      initial={{ opacity: 0, rotate: -14, scale: 1.1 }}
+                      animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                      exit={{ opacity: 0, transition: spring.slow.exit }}
+                      transition={spring.slow}
+                    >
+                      <Photo src={station.image} alt={`The ${station.name.toLowerCase()} at the gym`} label={`${station.name} photo`} size="1200 × 1200" tone="cool" className="size-full" />
+                    </motion.div>
+                  </AnimatePresence>
+                  <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_0_70px_rgb(5_8_13/0.6)]" />
+                </div>
+              </div>
+              <span className="eyebrow absolute bottom-[5%] left-1/2 -translate-x-1/2 rounded-full bg-bg px-3 py-1.5 whitespace-nowrap text-volt shadow-[0_0_0_1px_rgb(61_245_160/0.35)]">
+                {station.count}
+              </span>
             </div>
 
-            <div className="flex flex-1 flex-col rounded-[28px] bg-card p-5 shadow-[inset_0_0_0_1px_rgb(244_241_234/0.07)] sm:p-7">
+            <div className="flex flex-1 flex-col rounded-[28px] bg-card p-5 shadow-[inset_0_0_0_1px_rgb(234_242_247/0.07)] sm:p-7">
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.div
                   key={station.id}

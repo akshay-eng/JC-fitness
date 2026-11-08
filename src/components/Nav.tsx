@@ -77,7 +77,7 @@ export function Nav() {
         transition={hidden ? spring.moderate.exit : spring.moderate}
         className={cn(
           'fixed inset-x-0 top-0 z-[70] px-[var(--gutter)]',
-          solid && 'bg-bg/75 shadow-[0_1px_0_rgb(244_241_234/0.08)] backdrop-blur-xl',
+          solid && 'bg-bg/75 shadow-[0_1px_0_rgb(234_242_247/0.08)] backdrop-blur-xl',
         )}
       >
         <nav aria-label="Main" className="container-x flex h-16 items-center justify-between gap-3 sm:gap-6">
@@ -116,7 +116,7 @@ export function Nav() {
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? 'Close menu' : 'Open menu'}
-              className="grid size-11 place-items-center rounded-full text-fg shadow-[inset_0_0_0_1px_rgb(244_241_234/0.2)] xl:hidden"
+              className="grid size-11 place-items-center rounded-full text-fg shadow-[inset_0_0_0_1px_rgb(234_242_247/0.2)] xl:hidden"
             >
               <IconSwap open={open} />
             </button>

@@ -1,31 +1,26 @@
 # Photos
 
-Drop real photos into these folders using the exact file names below. They
-appear on the site automatically; no code changes needed. Until a file
-exists, the site shows a placeholder with the path and size to use.
+The photos in these folders are **public-domain placeholders** (see
+[CREDITS.md](CREDITS.md)) so the site looks finished before real photos of the
+gym exist. To use your own, **overwrite a file with the same name**: the site
+picks it up automatically, with no code changes.
 
-Use JPG (or change the extension in `src/content.ts`). Aim for under 400 KB
-each: export at the size listed, quality ~75%, or run them through
-https://squoosh.app.
+Tips: JPG, quality around 75–80%, under ~300 KB each (https://squoosh.app).
+Photos get a colour grade on the site (cool blue, or a blue-green duotone that
+turns to full colour on hover), so mixed lighting still looks consistent.
 
-| File | Where it shows | Size |
+| File | Where it shows | Shape / size |
 |---|---|---|
-| `hero.jpg` | Behind the hero, darkened (no placeholder) | 2400 × 1600 |
-| `stations/clean.jpg` | The Floor → Clean & jerk | 1600 × 1200 |
-| `stations/squat.jpg` | The Floor → Squat | 1600 × 1200 |
-| `stations/bench.jpg` | The Floor → Bench | 1600 × 1200 |
-| `stations/deadlift.jpg` | The Floor → Deadlift | 1600 × 1200 |
-| `stations/treadmill.jpg` | The Floor → Treadmill | 1600 × 1200 |
-| `stations/elliptical.jpg` | The Floor → Elliptical | 1600 × 1200 |
-| `stations/bike.jpg` | The Floor → Spin bike | 1600 × 1200 |
-| `stations/rower.jpg` | The Floor → Rower | 1600 × 1200 |
-| `gallery/floor.jpg` | Inside JC, large tile | 2000 × 1500 |
-| `gallery/platforms.jpg` | Inside JC | 1600 × 1000 |
-| `gallery/cardio.jpg` | Inside JC | 1600 × 1000 |
-| `gallery/boxing.jpg` | Inside JC | 1200 × 1200 |
-| `gallery/class.jpg` | Inside JC | 1200 × 1200 |
-| `gallery/recovery.jpg` | Inside JC | 1200 × 1200 |
-| `programs/strength.jpg` … `programs/pt.jpg` | Program card backgrounds (no placeholder) | 1200 × 900 |
-| `events/iron-clash.jpg` | Featured event card, tinted orange (no placeholder) | 1600 × 1000 |
+| `hero.jpg` | Hero, the big angled photo panel | Landscape, 2000 × 1400+ |
+| `hero-detail.jpg` | Hero, the round close-up with turning text | Square, 800 × 800 |
+| `stations/clean.jpg` … `stations/rower.jpg` | The Floor, round plate frame per station | Square, 1200 × 1200 |
+| `programs/strength.jpg`, `olympic`, `hiit`, `boxing`, `yoga`, `pt` | Program cards (duotone, colour on hover) | Landscape, 1200 × 800 |
+| `gallery/*.jpg` (10 files) | Inside JC, the two slanted photo strips | See sizes in `src/content.ts` |
+| `events/iron-clash.jpg` | Featured event card, left half | Landscape, 1600 × 1000 |
+| `events/<event-id>.jpg` | Photo that follows the cursor over each event row | Portrait 4:5, 800 × 1000 |
 
-Program photo names: `strength`, `olympic`, `hiit`, `boxing`, `yoga`, `pt`.
+Station names: `clean`, `squat`, `bench`, `deadlift`, `treadmill`, `elliptical`, `bike`, `rower`.
+Gallery names: `floor`, `boxing`, `cardio`, `weights`, `class`, `platforms`, `recovery`, `ropes`, `cardio-deck`, `kettlebells`.
+
+Want more or fewer photos, or different captions? Edit the `gallery`, `stations`
+and `events` lists in `src/content.ts`.

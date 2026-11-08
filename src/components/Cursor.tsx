@@ -48,9 +48,9 @@ export function Cursor() {
         // Over a clickable it becomes a faint halo, so it never sits on a label.
         animate={{ scale: hot ? 2.3 : 1, opacity: !visible || hide ? 0 : hot ? 0.3 : 1 }}
         transition={spring.slow}
-        className="grid size-8 place-items-center rounded-full border-[5px] border-[#ff5b14]"
+        className="grid size-8 place-items-center rounded-full border-[5px] border-[#3b8cff]"
       >
-        <motion.span animate={{ opacity: hot ? 0 : 1 }} transition={spring.fast} className="size-1.5 rounded-full bg-[#f4f1ea]" />
+        <motion.span animate={{ opacity: hot ? 0 : 1 }} transition={spring.fast} className="size-1.5 rounded-full bg-[#eaf2f7]" />
       </motion.div>
     </motion.div>
   )

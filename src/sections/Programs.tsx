@@ -1,7 +1,6 @@
 import { motion, useMotionValue, useReducedMotion, useSpring } from 'motion/react'
 import { useRef, type PointerEvent } from 'react'
 import { ArrowUpRight } from 'lucide-react'
-import { BarbellFront } from '@/components/BarbellFront'
 import { KineticHeading } from '@/components/KineticHeading'
 import { Photo } from '@/components/Photo'
 import { programs, type Program } from '@/content'
@@ -82,28 +81,25 @@ function ProgramCard({ program, index }: { program: Program; index: number }) {
       onPointerLeave={onLeave}
       style={{ rotateX: rx, rotateY: ry, transformPerspective: 900 }}
       className={cn(
-        'spotlight group relative flex flex-col overflow-clip rounded-[22px] bg-card p-6 shadow-[inset_0_0_0_1px_rgb(244_241_234/0.07)] sm:p-7',
+        // A notched corner, like a cut plate, so the grid reads as more than boxes.
+        'spotlight group relative flex flex-col overflow-clip rounded-[22px] bg-card p-6 shadow-[inset_0_0_0_1px_rgb(234_242_247/0.07)] [clip-path:polygon(0_0,calc(100%-46px)_0,100%_46px,100%_100%,0_100%)] sm:p-7',
         SPAN[program.id],
       )}
     >
-      {/* Optional photo: drop public/images/programs/<id>.jpg in and it fills the card. */}
+      {/* Photo: replace public/images/programs/<id>.jpg with your own. Brand duotone, full colour on hover. */}
       <Photo
         src={program.image}
         alt=""
         placeholder={false}
+        tone="duo"
         className="pointer-events-none absolute inset-0 rounded-[inherit]"
-        imgClassName="opacity-40 grayscale transition-[transform,opacity] duration-700 ease-[var(--ease-out)] group-hover:scale-105 group-hover:opacity-55 [mask-image:linear-gradient(to_top,transparent_15%,#000_85%)]"
+        imgClassName="opacity-80 group-hover:scale-[1.05] group-hover:opacity-100"
       />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card via-card/75 to-card/5" />
       <div className="relative flex items-start justify-between gap-4">
         <span className="eyebrow tabular text-muted-foreground">0{index + 1}</span>
         <ProgramIcon kind={program.icon} />
       </div>
-
-      {big && (
-        <div className="relative my-auto px-2 py-6 transition-transform duration-300 ease-[var(--ease-out)] group-hover:-translate-y-2" aria-hidden="true">
-          <BarbellFront plates={[25, 20, 15]} label="" />
-        </div>
-      )}
 
       <div className={cn('relative mt-auto', !big && 'pt-10')}>
         <h3 className={cn('display', big ? 'text-[clamp(44px,5vw,72px)]' : 'text-[36px]')} style={{ ['--wd' as string]: 70 }}>

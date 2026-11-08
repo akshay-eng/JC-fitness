@@ -146,7 +146,7 @@ export function Contact() {
             </li>
           </ul>
 
-          <div className="mt-10 overflow-clip rounded-[22px] shadow-[inset_0_0_0_1px_rgb(244_241_234/0.08)]">
+          <div className="mt-10 overflow-clip rounded-[22px] shadow-[inset_0_0_0_1px_rgb(234_242_247/0.08)]">
             <iframe
               title={`Map showing ${gym.name}`}
               src={`https://maps.google.com/maps?q=${encodeURIComponent(gym.address.mapQuery)}&z=14&output=embed`}
@@ -158,7 +158,7 @@ export function Contact() {
         </div>
 
         <motion.div animate={shake} className="relative">
-          <div className="relative overflow-clip rounded-[28px] bg-card p-6 shadow-[inset_0_0_0_1px_rgb(244_241_234/0.08)] sm:p-10">
+          <div className="relative overflow-clip rounded-[28px] bg-card p-6 shadow-[inset_0_0_0_1px_rgb(234_242_247/0.08)] sm:p-10">
             <div aria-hidden="true" className="pointer-events-none absolute -top-24 -right-24 size-72 rounded-full bg-[radial-gradient(circle,rgb(37_211_102/0.14),transparent_65%)]" />
             <AnimatePresence mode="wait" initial={false}>
               {sent ? (

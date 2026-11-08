@@ -96,7 +96,7 @@ export function Footer() {
             ['--wd' as string]: 62,
             ['--fill' as string]: '0%',
             color: 'transparent',
-            WebkitTextStroke: '1.5px rgb(244 241 234 / 0.25)',
+            WebkitTextStroke: '1.5px rgb(234 242 247 / 0.25)',
             backgroundImage: 'linear-gradient(90deg, var(--brand) var(--fill), transparent var(--fill))',
             WebkitBackgroundClip: 'text',
             backgroundClip: 'text',

@@ -1,5 +1,5 @@
-import { motion } from 'motion/react'
-import { useEffect, useMemo, useRef, useState, type RefObject } from 'react'
+import { AnimatePresence, motion, useMotionValue, useSpring } from 'motion/react'
+import { useEffect, useMemo, useRef, useState, type MouseEvent, type RefObject } from 'react'
 import { ArrowUpRight, MapPin } from 'lucide-react'
 import { FluidHoverHighlight } from '@/components/fluid-hover-highlight'
 import { KineticHeading } from '@/components/KineticHeading'
@@ -86,29 +86,21 @@ function Featured({ event }: { event: GymEvent }) {
   const left = event.seats ? event.seats.total - event.seats.taken : null
   const pct = event.seats ? (event.seats.taken / event.seats.total) * 100 : 0
   return (
-    <article className="relative overflow-clip rounded-[28px] bg-brand text-bg">
-      {/* Optional photo: public/images/events/iron-clash.jpg, multiplied into the orange. */}
-      <Photo
-        src={images.featuredEvent}
-        alt=""
-        placeholder={false}
-        className="pointer-events-none absolute inset-0"
-        imgClassName="opacity-45 mix-blend-multiply grayscale contrast-125"
-      />
-      <span
-        aria-hidden="true"
-        className="display display-italic pointer-events-none absolute -right-6 -bottom-10 text-[clamp(120px,22vw,300px)] leading-none text-bg/10 select-none"
-        style={{ ['--wd' as string]: 62 }}
-      >
-        Iron
-      </span>
-      <div className="relative grid gap-8 p-6 sm:p-10 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+    <article className="relative grid overflow-clip rounded-[28px] bg-[linear-gradient(125deg,var(--brand)_0%,#5fb4ff_45%,var(--volt)_100%)] text-bg lg:grid-cols-[0.85fr_1.15fr]">
+      {/* Photo half, cut on a diagonal. Replace public/images/events/iron-clash.jpg. */}
+      <div className="relative min-h-[260px] [clip-path:polygon(0_0,100%_0,100%_84%,0_100%)] sm:min-h-[340px] lg:min-h-full lg:[clip-path:polygon(0_0,100%_0,80%_100%,0_100%)]">
+        <Photo src={images.featuredEvent} alt="An athlete's back and shoulders, mid-training" label="Featured event photo" size="1600 × 1000" tone="cool" className="absolute inset-0" />
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-brand/40" />
+        <p className="eyebrow absolute top-5 left-5 flex items-center gap-2 rounded-full bg-bg/85 px-3 py-2 text-fg backdrop-blur">
+          <span className="live-dot size-2 rounded-full bg-volt" aria-hidden="true" />
+          Featured · {KIND_LABEL[event.kind]}
+        </p>
+      </div>
+
+      <div className="relative grid gap-7 p-6 sm:p-10">
         <div>
-          <p className="eyebrow flex items-center gap-2">
-            <span className="live-dot size-2 rounded-full bg-bg" aria-hidden="true" />
-            Featured · {KIND_LABEL[event.kind]} · registrations open
-          </p>
-          <h3 className="display display-italic mt-5 text-[clamp(56px,9vw,120px)]" style={{ ['--wd' as string]: 62 }}>
+          <p className="eyebrow">Registrations open</p>
+          <h3 className="display display-italic mt-4 text-[clamp(52px,7.5vw,108px)]" style={{ ['--wd' as string]: 62 }}>
             {event.title}
           </h3>
           <p className="mt-4 max-w-lg text-[17px] text-bg/80">{event.blurb}</p>
@@ -124,22 +116,23 @@ function Featured({ event }: { event: GymEvent }) {
           </p>
         </div>
 
-        <div className="flex flex-col gap-6">
-          <div role="timer" aria-label={`Starts in ${c.d} days, ${c.h} hours`} className="grid grid-cols-4 gap-2">
-            {(
-              [
-                ['Days', c.d],
-                ['Hrs', c.h],
-                ['Min', c.m],
-                ['Sec', c.s],
-              ] as const
-            ).map(([label, v]) => (
-              <div key={label} className="rounded-2xl bg-bg/[0.08] px-2 py-3 text-center">
-                <RollingNumber value={String(v).padStart(2, '0')} className="display text-[clamp(40px,5vw,64px)]" />
-                <p className="eyebrow mt-2 text-[10px] text-bg/70">{label}</p>
-              </div>
-            ))}
-          </div>
+        <div role="timer" aria-label={`Starts in ${c.d} days, ${c.h} hours`} className="grid grid-cols-4 gap-2">
+          {(
+            [
+              ['Days', c.d],
+              ['Hrs', c.h],
+              ['Min', c.m],
+              ['Sec', c.s],
+            ] as const
+          ).map(([label, v]) => (
+            <div key={label} className="rounded-2xl bg-bg/[0.1] px-2 py-3 text-center">
+              <RollingNumber value={String(v).padStart(2, '0')} className="display text-[clamp(40px,5vw,64px)]" />
+              <p className="eyebrow mt-2 text-[10px] text-bg/70">{label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-[1fr_auto] sm:items-end">
           {event.seats && (
             <div>
               <div className="mb-2 flex justify-between text-[13px] [font-variation-settings:'wght'_600]">
@@ -169,15 +162,54 @@ function Featured({ event }: { event: GymEvent }) {
   )
 }
 
+/** Follows the pointer like a print pinned to the cursor. Deliberately softer than FF tiers: it trails. */
+const PREVIEW = { stiffness: 220, damping: 24, mass: 0.6 }
+
 function EventList({ list }: { list: GymEvent[] }) {
   const ref = useRef<HTMLUListElement>(null)
   const hover = useFluidHover(ref, { axis: 'y' })
+  const x = useSpring(useMotionValue(0), PREVIEW)
+  const y = useSpring(useMotionValue(0), PREVIEW)
+  const active = hover.activeIndex != null ? list[hover.activeIndex] : undefined
+  const tilt = useSpring(useMotionValue(0), PREVIEW)
   if (!list.length) {
     return <p className="py-12 text-center text-fg/60">Nothing in this category right now. Check back next week.</p>
   }
+  const onMove = (e: MouseEvent<HTMLUListElement>) => {
+    hover.handlers.onMouseMove(e)
+    const r = e.currentTarget.getBoundingClientRect()
+    const nx = e.clientX - r.left
+    tilt.set((nx - x.get()) * 0.08)
+    x.set(nx)
+    y.set(e.clientY - r.top)
+  }
   return (
-    <ul ref={ref} {...hover.handlers} className="relative border-t border-fg/10">
+    <ul ref={ref} {...hover.handlers} onMouseMove={onMove} className="relative border-t border-fg/10">
       <FluidHoverHighlight hover={hover} className="rounded-2xl" />
+      {/* Hover preview: the hovered event's photo, trailing the pointer (wide screens). */}
+      <motion.div aria-hidden="true" style={{ x, y, rotate: tilt }} className="pointer-events-none absolute top-0 left-0 z-20 hidden lg:block">
+        <motion.div
+          initial={false}
+          animate={{ opacity: active?.image ? 1 : 0, scale: active?.image ? 1 : 0.85 }}
+          transition={active?.image ? spring.slow : spring.moderate.exit}
+          className="relative -mt-[150px] ml-8 aspect-[4/5] w-[230px] -rotate-3 overflow-clip rounded-xl bg-card shadow-[0_30px_70px_rgb(0_0_0/0.55),0_0_0_4px_var(--bg)]"
+        >
+          <AnimatePresence initial={false}>
+            {active?.image && (
+              <motion.img
+                key={active.image}
+                src={active.image}
+                alt=""
+                initial={{ opacity: 0, scale: 1.12 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, transition: spring.moderate.exit }}
+                transition={spring.slow}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </motion.div>
       {list.map((e, i) => (
         <EventRow key={e.id} event={e} index={i} register={hover.registerItem} />
       ))}
@@ -217,6 +249,7 @@ function EventRow({ event, index, register }: { event: GymEvent; index: number; 
 
         <div className="min-w-0">
           <div className="mb-1.5 flex flex-wrap items-center gap-2">
+            {event.image && <img src={event.image} alt="" loading="lazy" className="size-7 rounded-full object-cover shadow-[0_0_0_2px_var(--bg),0_0_0_3px_rgb(59_140_255/0.6)] lg:hidden" />}
             <span className="rounded-full bg-fg/[0.07] px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] text-fg/80">{KIND_LABEL[event.kind]}</span>
             {soon(event.date) && (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-volt/15 px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] text-volt">

@@ -74,7 +74,7 @@ export function LiftLab() {
   const busy = phase !== 'idle'
 
   const heaviest = weights.length ? Math.max(...weights) : 0
-  const plateColor = heaviest ? PLATE_SPECS[heaviest].color : 'rgb(244 241 234 / 0.25)'
+  const plateColor = heaviest ? PLATE_SPECS[heaviest].color : 'rgb(234 242 247 / 0.25)'
   const plateStroke = 6 + Math.min(weights.length, 7) * 2.4
 
   const canAdd = (pw: number) => !busy && total + pw * 2 <= MAX_LOAD && sleeveUsed([...weights, pw]) <= SLEEVE
@@ -222,13 +222,13 @@ export function LiftLab() {
           {/* Stage */}
           <div
             ref={stage}
-            className="relative order-2 overflow-clip rounded-[28px] bg-card shadow-[inset_0_0_0_1px_rgb(244_241_234/0.07)] lg:order-1"
+            className="relative order-2 overflow-clip rounded-[28px] bg-card shadow-[inset_0_0_0_1px_rgb(234_242_247/0.07)] lg:order-1"
             style={{ ['--charge' as string]: 0 }}
           >
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0"
-              style={{ background: 'radial-gradient(60% 50% at 50% 70%, rgb(255 91 20 / calc(0.08 + var(--charge) * 0.3)), transparent 70%)' }}
+              style={{ background: 'radial-gradient(60% 50% at 50% 70%, rgb(59 140 255 / calc(0.08 + var(--charge) * 0.3)), transparent 70%)' }}
             />
             <div className="grid-lines pointer-events-none absolute inset-0 opacity-70" aria-hidden="true" />
 
@@ -284,12 +284,12 @@ export function LiftLab() {
             <div className="relative flex flex-col items-center px-5 pb-7 sm:px-7 md:px-0">
               <div className="relative size-[220px]">
                 <svg viewBox="0 0 220 220" className="absolute inset-0" aria-hidden="true">
-                  <path d={arc(0, 1)} fill="none" stroke="rgb(244 241 234 / 0.1)" strokeWidth={12} strokeLinecap="round" />
+                  <path d={arc(0, 1)} fill="none" stroke="rgb(234 242 247 / 0.1)" strokeWidth={12} strokeLinecap="round" />
                   <path d={arc(z0, z1)} fill="none" stroke="var(--volt)" strokeWidth={12} strokeLinecap="round" className="transition-[d] duration-200" />
                   {[0, 0.25, 0.5, 0.75, 1].map((t) => {
                     const a = pt(angleAt(t), G.r - 14)
                     const b = pt(angleAt(t), G.r - 20)
-                    return <line key={t} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="rgb(244 241 234 / 0.3)" strokeWidth={2} />
+                    return <line key={t} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="rgb(234 242 247 / 0.3)" strokeWidth={2} />
                   })}
                   <g ref={needle}>
                     <line x1={G.cx + G.r - 18} y1={G.cy} x2={G.cx + G.r + 8} y2={G.cy} stroke="var(--fg)" strokeWidth={4} strokeLinecap="round" />
@@ -313,8 +313,8 @@ export function LiftLab() {
                     'absolute top-1/2 left-1/2 grid size-[136px] -translate-x-1/2 -translate-y-1/2 touch-none place-items-center rounded-full px-4 text-center select-none [-webkit-touch-callout:none]',
                     'display text-[22px] leading-[0.95] transition-[transform,background-color,box-shadow] duration-150 ease-[var(--ease-out)]',
                     phase === 'charging'
-                      ? 'scale-[0.96] bg-brand-hot text-bg shadow-[0_0_0_10px_rgb(255_91_20/0.18),0_0_60px_rgb(255_91_20/0.5)]'
-                      : 'bg-brand text-bg shadow-[0_0_0_6px_rgb(255_91_20/0.12)] hover:bg-brand-hot',
+                      ? 'scale-[0.96] bg-brand-hot text-bg shadow-[0_0_0_10px_rgb(59_140_255/0.18),0_0_60px_rgb(59_140_255/0.5)]'
+                      : 'bg-brand text-bg shadow-[0_0_0_6px_rgb(59_140_255/0.12)] hover:bg-brand-hot',
                     phase === 'lifting' && 'opacity-60',
                   )}
                   style={{ ['--wd' as string]: 72 }}
@@ -331,7 +331,7 @@ export function LiftLab() {
 
           {/* Loader + result */}
           <div className="order-1 flex flex-col gap-3 lg:order-2">
-            <div className="rounded-[28px] bg-card p-5 shadow-[inset_0_0_0_1px_rgb(244_241_234/0.07)] sm:p-7">
+            <div className="rounded-[28px] bg-card p-5 shadow-[inset_0_0_0_1px_rgb(234_242_247/0.07)] sm:p-7">
               <div className="flex items-center justify-between gap-3">
                 <p className="eyebrow text-muted-foreground">Step 1 · Load the bar</p>
                 <div className="flex gap-1">
@@ -357,7 +357,7 @@ export function LiftLab() {
                       onClick={() => add(pw)}
                       disabled={!canAdd(pw)}
                       aria-label={`Add a pair of ${pw} kilogram plates`}
-                      className="group flex min-h-16 flex-col items-center justify-center gap-1 rounded-2xl bg-fg/[0.04] py-2 shadow-[inset_0_0_0_1px_rgb(244_241_234/0.06)] hover:bg-fg/[0.08] disabled:cursor-not-allowed disabled:opacity-30"
+                      className="group flex min-h-16 flex-col items-center justify-center gap-1 rounded-2xl bg-fg/[0.04] py-2 shadow-[inset_0_0_0_1px_rgb(234_242_247/0.06)] hover:bg-fg/[0.08] disabled:cursor-not-allowed disabled:opacity-30"
                     >
                       <span
                         className="h-7 rounded-[3px] transition-transform duration-150 ease-[var(--ease-out)] group-hover:-translate-y-0.5"
@@ -374,7 +374,7 @@ export function LiftLab() {
               <p className="mt-3 text-[13px] text-muted-foreground">Each tap adds a pair. Bar is {BAR} kg. Max {MAX_LOAD} kg.</p>
             </div>
 
-            <div className="relative flex-1 overflow-clip rounded-[28px] bg-card p-5 shadow-[inset_0_0_0_1px_rgb(244_241_234/0.07)] sm:p-7" aria-live="polite">
+            <div className="relative flex-1 overflow-clip rounded-[28px] bg-card p-5 shadow-[inset_0_0_0_1px_rgb(234_242_247/0.07)] sm:p-7" aria-live="polite">
               <p className="eyebrow text-muted-foreground">Step 2 · Your result</p>
               <AnimatePresence mode="popLayout" initial={false}>
                 {result?.ok ? (

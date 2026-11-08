@@ -19,7 +19,7 @@ export function Pricing() {
 
   return (
     <section id="pricing" aria-labelledby="pricing-title" className="section">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-1/3 mx-auto h-[60vmax] max-w-5xl rounded-full bg-[radial-gradient(circle,rgb(255_91_20/0.12),transparent_60%)]" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-1/3 mx-auto h-[60vmax] max-w-5xl rounded-full bg-[radial-gradient(circle,rgb(59_140_255/0.12),transparent_60%)]" />
       <div className="container-x relative">
         <div className="mb-12 flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
           <div>
@@ -45,7 +45,7 @@ export function Pricing() {
 
         <ul className="mt-8 flex flex-wrap justify-center gap-2" aria-label="Other options">
           {pricingExtras.map((x) => (
-            <li key={x} className="rounded-full bg-fg/[0.05] px-4 py-2 text-[13px] text-fg/75 shadow-[inset_0_0_0_1px_rgb(244_241_234/0.06)]">
+            <li key={x} className="rounded-full bg-fg/[0.05] px-4 py-2 text-[13px] text-fg/75 shadow-[inset_0_0_0_1px_rgb(234_242_247/0.06)]">
               {x}
             </li>
           ))}
@@ -69,7 +69,7 @@ function PlanCard({ plan, billing, months }: { plan: Plan; billing: Billing; mon
       transition={spring.slow}
       className={cn(
         'relative flex flex-col rounded-[28px] p-6 sm:p-8',
-        plan.featured ? 'hot-border bg-[#17120f] lg:-my-4 lg:py-12' : 'bg-card shadow-[inset_0_0_0_1px_rgb(244_241_234/0.07)]',
+        plan.featured ? 'hot-border bg-[#0a1322] lg:-my-4 lg:py-12' : 'bg-card shadow-[inset_0_0_0_1px_rgb(234_242_247/0.07)]',
       )}
     >
       <div className="flex items-center justify-between gap-3">

@@ -13,7 +13,7 @@ type Variant = 'brand' | 'outline' | 'wa' | 'volt'
 const styles: Record<Variant, string> = {
   brand: 'bg-brand text-bg hover:bg-brand-hot',
   volt: 'bg-volt text-bg hover:brightness-95',
-  outline: 'text-fg shadow-[inset_0_0_0_1.5px_rgb(244_241_234/0.35)] hover:shadow-[inset_0_0_0_1.5px_var(--fg)] hover:bg-fg/5',
+  outline: 'text-fg shadow-[inset_0_0_0_1.5px_rgb(234_242_247/0.35)] hover:shadow-[inset_0_0_0_1.5px_var(--fg)] hover:bg-fg/5',
   wa: 'bg-wa text-[#06240f] hover:brightness-105',
 }
 

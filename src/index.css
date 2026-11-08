@@ -215,7 +215,7 @@
     --selected: #D4D4D4;
     --destructive-light: #FEF2F2;
     --overlay: 0 0 0;
-    --fluid-accent: #d7ff3a;
+    --fluid-accent: #3df5a0;
     --focus-ring: var(--fluid-accent);
     --tint: rgb(0 0 0 / 0.08);
     --tint-hover: rgb(0 0 0 / 0.065);
@@ -268,24 +268,24 @@
 }
 
 .dark {
-    --background: #0b0b0c;
-    --foreground: #f4f1ea;
-    --card: #141416;
-    --card-foreground: #f4f1ea;
-    --popover: #1b1b1e;
-    --popover-foreground: #f4f1ea;
-    --primary: #ff5b14;
-    --primary-foreground: #0b0b0c;
-    --secondary: #1f1f23;
-    --secondary-foreground: #f4f1ea;
-    --muted: #1f1f23;
-    --muted-foreground: #a7a39b;
-    --accent: #1f1f23;
-    --accent-foreground: #f4f1ea;
+    --background: #05080d;
+    --foreground: #eaf2f7;
+    --card: #0b111a;
+    --card-foreground: #eaf2f7;
+    --popover: #101824;
+    --popover-foreground: #eaf2f7;
+    --primary: #3b8cff;
+    --primary-foreground: #05080d;
+    --secondary: #111a26;
+    --secondary-foreground: #eaf2f7;
+    --muted: #111a26;
+    --muted-foreground: #98a6b5;
+    --accent: #111a26;
+    --accent-foreground: #eaf2f7;
     --destructive: #ff4d4d;
-    --border: rgb(244 241 234 / 0.1);
-    --input: rgb(244 241 234 / 0.16);
-    --ring: #d7ff3a;
+    --border: rgb(234 242 247 / 0.1);
+    --input: rgb(234 242 247 / 0.16);
+    --ring: #3df5a0;
     --chart-1: oklch(0.87 0 0);
     --chart-2: oklch(0.556 0 0);
     --chart-3: oklch(0.439 0 0);
@@ -301,19 +301,19 @@
     --sidebar-ring: oklch(0.556 0 0);
     --hover: rgb(255 255 255 / 0.06);
     --active: rgb(255 255 255 / 0.1);
-    --selected: #3a3a40;
+    --selected: #26364c;
     --destructive-light: #450A0A;
     --overlay: 255 255 255;
     --tint: rgb(255 255 255 / 0.25);
     --tint-hover: rgb(255 255 255 / 0.2);
-    --surface-1: #121214;
-    --surface-2: #17171a;
-    --surface-3: #1d1d21;
-    --surface-4: #232328;
-    --surface-5: #2a2a2f;
-    --surface-6: #313137;
-    --surface-7: #38383e;
-    --surface-8: #404047;
+    --surface-1: #0a1018;
+    --surface-2: #0e151f;
+    --surface-3: #121a26;
+    --surface-4: #17202d;
+    --surface-5: #1c2635;
+    --surface-6: #222d3d;
+    --surface-7: #283445;
+    --surface-8: #2f3b4d;
     --dm-hi-base: rgba(255,255,255,0.01);
     --dm-hi-mid: rgba(255,255,255,0.02);
     --dm-hi-high: rgba(255,255,255,0.04);
@@ -481,11 +481,13 @@
 /* ======================================================================== */
 
 :root {
-  --bg: #0b0b0c;
-  --fg: #f4f1ea;
-  --brand: #ff5b14;
-  --brand-hot: #ff7a3d;
-  --volt: #d7ff3a;
+  --bg: #05080d;
+  --fg: #eaf2f7;
+  --brand: #3b8cff;
+  --brand-hot: #6aa8ff;
+  --volt: #3df5a0;
+  /* Deep end of the brand gradient, for duotone photos. */
+  --navy: #0a1a3a;
   --no-lift: #ff3b30;
   --wa: #25d366;
   /* Bumper plate colours, IWF convention. */
@@ -493,7 +495,7 @@
   --plate-20: #2f6fe4;
   --plate-15: #f2c230;
   --plate-10: #2fb35a;
-  --plate-5: #f4f1ea;
+  --plate-5: #eaf2f7;
   --plate-2: #9a9aa3;
   /* House curves (motion skill): strong ease-out, and on-screen movement. */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -611,8 +613,8 @@ body {
 /* Chalk-line grid on dark surfaces. */
 .grid-lines {
   background-image:
-    linear-gradient(to right, rgb(244 241 234 / 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(244 241 234 / 0.045) 1px, transparent 1px);
+    linear-gradient(to right, rgb(234 242 247 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(234 242 247 / 0.045) 1px, transparent 1px);
   background-size: 56px 56px;
 }
 
@@ -661,7 +663,7 @@ body {
   border-radius: inherit;
   pointer-events: none;
   opacity: var(--spot, 0);
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(255 91 20 / 0.16), transparent 60%);
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(59 140 255 / 0.16), transparent 60%);
   transition: opacity 180ms var(--ease-out);
 }
 

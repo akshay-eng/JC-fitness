@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 
 const BANDS = [
   { dir: -1, rotate: -3.5, cls: 'bg-brand text-bg', outline: false },
-  { dir: 1, rotate: 2.5, cls: 'bg-bg text-fg shadow-[0_0_0_1px_rgb(244_241_234/0.12)]', outline: true },
+  { dir: 1, rotate: 2.5, cls: 'bg-bg text-fg shadow-[0_0_0_1px_rgb(234_242_247/0.12)]', outline: true },
 ]
 
 /** Two crossing tape bands. Scroll speed winds them up and skews them. */
