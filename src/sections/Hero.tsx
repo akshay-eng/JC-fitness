@@ -1,10 +1,12 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { ArrowDown, ArrowUpRight } from 'lucide-react'
 import { Lifter, type LifterHandle } from '@/components/lifter/Lifter'
-import { cleanAndJerk, POSES } from '@/components/lifter/timelines'
+import { PHASE_LABELS, prime, STATION_RIGS, type StationId } from '@/components/lifter/stations'
 import { MagneticButton } from '@/components/MagneticButton'
+import { Photo } from '@/components/Photo'
 import { WhatsAppIcon } from '@/components/icons'
-import { gym } from '@/content'
+import { gym, images, stations } from '@/content'
 import { gsap, isFinePointer, prefersReducedMotion } from '@/lib/gsap'
 import { scrollToId } from '@/lib/scroll'
 import { cn } from '@/lib/utils'
@@ -23,14 +25,9 @@ const FACTS = [
   { k: '1st', v: 'Session free' },
 ]
 
-const PHASES: Record<string, string> = {
-  setup: 'Set up',
-  pull: 'Pull',
-  catch: 'Catch',
-  stand: 'Stand',
-  jerk: 'Jerk',
-  lockout: 'Good lift',
-}
+/** The hero showreel: one rep of each big lift, the equipment swapping in between. */
+const REEL: StationId[] = ['clean', 'squat', 'bench', 'deadlift']
+const stationOf = (id: StationId) => stations.find((s) => s.id === id)!
 
 /** Shake an element like the floor took the hit. */
 function shake(el: HTMLElement | null, power = 6) {
@@ -56,15 +53,19 @@ export function Hero({ ready }: { ready: boolean }) {
   const root = useRef<HTMLElement>(null)
   const title = useRef<HTMLHeadingElement>(null)
   const stage = useRef<HTMLDivElement>(null)
+  const figure = useRef<HTMLDivElement>(null)
   const lifter = useRef<LifterHandle>(null)
   const [phase, setPhase] = useState('setup')
+  const [lift, setLift] = useState<StationId>('clean')
+  const liftRef = useRef<StationId>('clean')
+  const current = stationOf(lift)
 
-  // Static, readable state for reduced motion: the finished lift.
+  // Static, readable state for reduced motion: the finished clean & jerk.
   useLayoutEffect(() => {
-    if (prefersReducedMotion() && lifter.current) {
-      lifter.current.snap(POSES.lockout)
-      lifter.current.state.lights = 3
-      lifter.current.render()
+    const h = lifter.current
+    if (prefersReducedMotion() && h) {
+      STATION_RIGS.clean.still(h.state)
+      h.render()
       setPhase('lockout')
     }
   }, [])
@@ -82,22 +83,57 @@ export function Hero({ ready }: { ready: boolean }) {
 
       const h = lifter.current
       if (!h) return
-      const loop = cleanAndJerk(h, {
-        labels: true,
-        onCatch: () => shake(stage.current, 4),
-        onDrop: () => {
-          shake(stage.current, 9)
-          shake(title.current, 3)
-        },
-      })
-      // Phase ticker under the stage follows the timeline's labels.
-      Object.entries(loop.labels).forEach(([name, time]) => loop.call(() => setPhase(name), [], time))
-      loop.repeat(-1).delay(0.6)
+      let rep: gsap.core.Animation | null = null
+      let visible = true
+      let alive = true
 
-      // Pause the loop when the hero is off screen: no work nobody sees.
-      const io = new IntersectionObserver(([e]) => (e.isIntersecting ? loop.resume() : loop.pause()))
+      const play = (i: number) => {
+        if (!alive) return
+        const id = REEL[i % REEL.length]
+        // The equipment is React-rendered: commit the new prop before posing the rig in it.
+        if (liftRef.current !== id) {
+          liftRef.current = id
+          flushSync(() => setLift(id))
+        }
+        prime(h, id)
+        const tl = STATION_RIGS[id].play(h, {
+          onImpact: () => {
+            shake(stage.current, 9)
+            shake(title.current, 3)
+          },
+        }) as gsap.core.Timeline
+        // Phase ticker under the stage follows the timeline's labels.
+        Object.entries(tl.labels).forEach(([name, time]) => tl.call(() => setPhase(name), [], time))
+        tl.eventCallback('onComplete', () => {
+          // Fade the athlete out, swap the equipment, fade back in on the next lift.
+          gsap.to(figure.current, {
+            opacity: 0,
+            scale: 0.97,
+            duration: 0.22,
+            ease: 'power2.in',
+            onComplete: () => {
+              play(i + 1)
+              gsap.to(figure.current, { opacity: 1, scale: 1, duration: 0.4, ease: 'expo.out' })
+            },
+          })
+        })
+        if (!visible) tl.pause()
+        rep = tl
+      }
+      gsap.delayedCall(0.6, () => play(0))
+
+      // Pause when the hero is off screen: no work nobody sees.
+      const io = new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting
+        if (visible) rep?.resume()
+        else rep?.pause()
+      })
       if (root.current) io.observe(root.current)
-      return () => io.disconnect()
+      return () => {
+        alive = false
+        io.disconnect()
+        rep?.kill()
+      }
     }, root)
     return () => ctx.revert()
   }, [ready])
@@ -133,6 +169,15 @@ export function Hero({ ready }: { ready: boolean }) {
 
   return (
     <section ref={root} id="top" aria-labelledby="hero-title" className="relative overflow-clip px-[var(--gutter)] pt-24 pb-16 lg:pt-20">
+      {/* Optional photo of your floor behind everything: drop public/images/hero.jpg in. */}
+      <Photo
+        src={images.hero}
+        alt=""
+        placeholder={false}
+        priority
+        className="pointer-events-none absolute inset-0"
+        imgClassName="opacity-[0.22] grayscale contrast-125 [mask-image:linear-gradient(to_bottom,#000_40%,transparent)]"
+      />
       {/* ambient layer */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="grid-lines absolute inset-0 [mask-image:radial-gradient(ellipse_at_70%_60%,#000_10%,transparent_70%)]" />
@@ -204,18 +249,32 @@ export function Hero({ ready }: { ready: boolean }) {
           >
             JC
           </span>
-          <Lifter ref={lifter} className="relative drop-shadow-[0_30px_60px_rgb(255_91_20/0.25)]" />
+          <div ref={figure} className="relative">
+            <Lifter
+              ref={lifter}
+              prop={STATION_RIGS[lift].prop}
+              label={`Animated athlete performing a ${current.name.toLowerCase()}`}
+              className="drop-shadow-[0_30px_60px_rgb(255_91_20/0.25)]"
+            />
+          </div>
           <div className="relative -mt-2 flex items-center justify-between gap-4 border-t border-fg/10 pt-4 lg:mr-20">
             <div>
-              <p className="eyebrow text-muted-foreground">Clean &amp; jerk</p>
-              <p className="display mt-1 text-3xl" style={{ ['--wd' as string]: 62 }}>
-                120 <span className="text-brand">kg</span>
+              <p className="eyebrow text-muted-foreground">{current.name}</p>
+              <p className="display mt-1 text-3xl tabular" style={{ ['--wd' as string]: 62 }}>
+                {current.demoKg} <span className="text-brand">kg</span>
               </p>
             </div>
+            <div className="flex items-center gap-4">
+              <div className="hidden gap-1.5 sm:flex" aria-hidden="true">
+                {REEL.map((id) => (
+                  <span key={id} className={cn('h-1 w-5 rounded-full transition-colors duration-200', id === lift ? 'bg-brand' : 'bg-fg/15')} />
+                ))}
+              </div>
             <p aria-live="off" className="eyebrow flex items-center gap-2 text-fg">
               <span className={cn('size-2 rounded-full', phase === 'lockout' ? 'bg-volt' : 'bg-brand')} aria-hidden="true" />
-              {PHASES[phase] ?? 'Set up'}
+              {PHASE_LABELS[phase] ?? 'Set up'}
             </p>
+            </div>
           </div>
         </div>
       </div>

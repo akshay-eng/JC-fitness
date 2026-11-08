@@ -689,3 +689,5 @@ svg [class*='animate-'] { transform-box: fill-box; }
 @keyframes ekg { from { stroke-dashoffset: 180; } to { stroke-dashoffset: 0; } }
 @keyframes jab { 0%, 60%, 100% { transform: translateX(-3px); } 20% { transform: translateX(7px) scale(1.04); } }
 @keyframes breathe { 0%, 100% { transform: scale(0.82); } 50% { transform: scale(1.06); } }
+
+@keyframes floor-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }

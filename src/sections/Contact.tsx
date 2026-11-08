@@ -57,7 +57,7 @@ export function Contact() {
   useEffect(() => {
     if (!prefill.nonce) return
     setSent(null)
-    setForm((f) => ({ ...f, interest: prefill.interest ?? f.interest }))
+    setForm((f) => ({ ...f, interest: prefill.interest ?? f.interest, message: prefill.note ? `I'd like to try the ${prefill.note.toLowerCase()}.` : f.message }))
     // Wait for the smooth scroll to land before moving focus.
     const t = window.setTimeout(() => nameRef.current?.focus({ preventScroll: true }), 1100)
     return () => window.clearTimeout(t)

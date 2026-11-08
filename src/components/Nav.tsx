@@ -14,6 +14,7 @@ import { Logo } from './Logo'
 
 const LINKS = [
   { id: 'programs', label: 'Programs' },
+  { id: 'floor', label: 'The Floor' },
   { id: 'lift-lab', label: 'Lift Lab' },
   { id: 'events', label: 'Events' },
   { id: 'pricing', label: 'Pricing' },
@@ -92,7 +93,7 @@ export function Nav() {
             <Logo />
           </a>
 
-          <ul ref={listRef} {...hover.handlers} className="relative hidden items-center lg:flex">
+          <ul ref={listRef} {...hover.handlers} className="relative hidden items-center xl:flex">
             <FluidHoverHighlight hover={hover} className="rounded-full" />
             {LINKS.map((l, i) => (
               <NavItem key={l.id} index={i} register={hover.registerItem} active={active === l.id} onGo={() => go(l.id)} {...l} />
@@ -115,7 +116,7 @@ export function Nav() {
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? 'Close menu' : 'Open menu'}
-              className="grid size-11 place-items-center rounded-full text-fg shadow-[inset_0_0_0_1px_rgb(244_241_234/0.2)] lg:hidden"
+              className="grid size-11 place-items-center rounded-full text-fg shadow-[inset_0_0_0_1px_rgb(244_241_234/0.2)] xl:hidden"
             >
               <IconSwap open={open} />
             </button>
@@ -132,7 +133,7 @@ export function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: spring.slow.exit }}
             transition={spring.slow}
-            className="fixed inset-0 z-[65] flex flex-col bg-bg px-[var(--gutter)] pb-[max(24px,env(safe-area-inset-bottom))] pt-24 lg:hidden"
+            className="fixed inset-0 z-[65] flex flex-col bg-bg px-[var(--gutter)] pb-[max(24px,env(safe-area-inset-bottom))] pt-24 xl:hidden"
           >
             <div className="grid-lines pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
             <ul className="relative flex flex-1 flex-col justify-center gap-1">
@@ -146,7 +147,7 @@ export function Nav() {
                   <button
                     type="button"
                     onClick={() => go(l.id)}
-                    className="display display-italic flex w-full items-baseline gap-4 py-1 text-left text-[clamp(52px,15vw,96px)] text-fg active:text-brand"
+                    className="display display-italic flex w-full items-baseline gap-4 py-1 text-left text-[clamp(44px,12.5vh,88px)] max-sm:text-[clamp(44px,13vw,80px)] text-fg active:text-brand"
                     style={{ ['--wd' as string]: 62 }}
                   >
                     <span className="eyebrow not-italic text-brand">0{i + 1}</span>

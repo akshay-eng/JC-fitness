@@ -4,10 +4,11 @@ import { ArrowUpRight, MapPin } from 'lucide-react'
 import { FluidHoverHighlight } from '@/components/fluid-hover-highlight'
 import { KineticHeading } from '@/components/KineticHeading'
 import { MagneticButton } from '@/components/MagneticButton'
+import { Photo } from '@/components/Photo'
 import { RollingNumber } from '@/components/RollingNumber'
 import { WhatsAppIcon } from '@/components/icons'
 import { Tabs, TabsItem, TabsPanel } from '@/components/ui/tabs'
-import { eventKinds, events, gym, type GymEvent } from '@/content'
+import { eventKinds, events, gym, images, type GymEvent } from '@/content'
 import { useFluidHover, useRegisterFluidHoverItem } from '@/hooks/use-fluid-hover'
 import { dayNum, longDate, monthShort, weekdayShort } from '@/lib/format'
 import { spring } from '@/lib/springs'
@@ -86,6 +87,14 @@ function Featured({ event }: { event: GymEvent }) {
   const pct = event.seats ? (event.seats.taken / event.seats.total) * 100 : 0
   return (
     <article className="relative overflow-clip rounded-[28px] bg-brand text-bg">
+      {/* Optional photo: public/images/events/iron-clash.jpg, multiplied into the orange. */}
+      <Photo
+        src={images.featuredEvent}
+        alt=""
+        placeholder={false}
+        className="pointer-events-none absolute inset-0"
+        imgClassName="opacity-45 mix-blend-multiply grayscale contrast-125"
+      />
       <span
         aria-hidden="true"
         className="display display-italic pointer-events-none absolute -right-6 -bottom-10 text-[clamp(120px,22vw,300px)] leading-none text-bg/10 select-none"

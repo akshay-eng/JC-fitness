@@ -3,6 +3,7 @@ import { useRef, type PointerEvent } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { BarbellFront } from '@/components/BarbellFront'
 import { KineticHeading } from '@/components/KineticHeading'
+import { Photo } from '@/components/Photo'
 import { programs, type Program } from '@/content'
 import { useBooking } from '@/lib/booking'
 import { cn } from '@/lib/utils'
@@ -85,18 +86,26 @@ function ProgramCard({ program, index }: { program: Program; index: number }) {
         SPAN[program.id],
       )}
     >
-      <div className="flex items-start justify-between gap-4">
+      {/* Optional photo: drop public/images/programs/<id>.jpg in and it fills the card. */}
+      <Photo
+        src={program.image}
+        alt=""
+        placeholder={false}
+        className="pointer-events-none absolute inset-0 rounded-[inherit]"
+        imgClassName="opacity-40 grayscale transition-[transform,opacity] duration-700 ease-[var(--ease-out)] group-hover:scale-105 group-hover:opacity-55 [mask-image:linear-gradient(to_top,transparent_15%,#000_85%)]"
+      />
+      <div className="relative flex items-start justify-between gap-4">
         <span className="eyebrow tabular text-muted-foreground">0{index + 1}</span>
         <ProgramIcon kind={program.icon} />
       </div>
 
       {big && (
-        <div className="my-auto px-2 py-6 transition-transform duration-300 ease-[var(--ease-out)] group-hover:-translate-y-2" aria-hidden="true">
+        <div className="relative my-auto px-2 py-6 transition-transform duration-300 ease-[var(--ease-out)] group-hover:-translate-y-2" aria-hidden="true">
           <BarbellFront plates={[25, 20, 15]} label="" />
         </div>
       )}
 
-      <div className={cn('mt-auto', !big && 'pt-10')}>
+      <div className={cn('relative mt-auto', !big && 'pt-10')}>
         <h3 className={cn('display', big ? 'text-[clamp(44px,5vw,72px)]' : 'text-[36px]')} style={{ ['--wd' as string]: 70 }}>
           {program.title}
         </h3>

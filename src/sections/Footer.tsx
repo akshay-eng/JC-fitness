@@ -8,6 +8,7 @@ import { waLink } from '@/lib/whatsapp'
 
 const LINKS = [
   { id: 'programs', label: 'Programs' },
+  { id: 'floor', label: 'The Floor' },
   { id: 'lift-lab', label: 'Lift Lab' },
   { id: 'events', label: 'Events' },
   { id: 'pricing', label: 'Pricing' },

@@ -2,9 +2,10 @@ import { gsap } from '@/lib/gsap'
 import type { LifterHandle } from './Lifter'
 import { FLOOR, LIMB, POSES, type Pose } from './rig'
 
-const KEYS = ['hx', 'hy', 'torso', 'bx', 'by', 'ffx', 'bfx', 'ffl', 'bfl', 'air', 'head'] as const
+const KEYS = ['hx', 'hy', 'torso', 'bx', 'by', 'ffx', 'bfx', 'ffl', 'bfl', 'ffa', 'bfa', 'air', 'head', 'eb', 'two', 'fhx', 'fhy', 'po'] as const
 
-const vars = (p: Pose) => Object.fromEntries(KEYS.map((k) => [k, p[k]])) as Record<(typeof KEYS)[number], number>
+/** A pose as tween targets. */
+export const vars = (p: Pose) => Object.fromEntries(KEYS.map((k) => [k, p[k]])) as Record<(typeof KEYS)[number], number>
 
 type Options = {
   /** Pauses between phases. Off for the scroll-scrubbed version. */

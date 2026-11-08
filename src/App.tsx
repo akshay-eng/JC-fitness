@@ -9,7 +9,9 @@ import { ScrollTrigger } from '@/lib/gsap'
 import { initSmoothScroll } from '@/lib/scroll'
 import { Contact } from '@/sections/Contact'
 import { Events } from '@/sections/Events'
+import { Floor } from '@/sections/Floor'
 import { Footer } from '@/sections/Footer'
+import { Gallery } from '@/sections/Gallery'
 import { Hero } from '@/sections/Hero'
 import { LiftLab } from '@/sections/LiftLab'
 import { Marquee } from '@/sections/Marquee'
@@ -40,8 +42,10 @@ export default function App() {
           <Marquee />
           <ScrollLift />
           <Programs />
+          <Floor />
           <LiftLab />
           <Events />
+          <Gallery />
           <Pricing />
           <Contact />
         </main>
